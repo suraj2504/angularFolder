@@ -5,7 +5,7 @@
 <body>
 <div ng-controller="myCtrl">
 	{{myWelcome}}
-	<div ng-repeat="obj in myWelcome" sty>{{obj}} </div>
+	<div ng-repeat="obj in myWelcome">{{obj}} </div>
 	
 </div>
 
@@ -32,7 +32,7 @@
 				function(err){$scope.testValue = err}
 			)
 			
-		$http.get("./sample.json")
+		$http.get("sample.json")
   .then(function(response) {
       $scope.myWelcome = response.data;
   });
