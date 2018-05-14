@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="APP">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<body>
+<div ng-controller="myCtrl">
+	{{myWelcome}}
+	<div ng-repeat="obj in myWelcome" sty>{{obj}} </div>
+	
+</div>
+
+<script>
+	var myApp = angular.module('APP',[]);
+	myApp.controller('myCtrl',['$scope','$q','$http',function($scope,$q,$http){
+		$scope.addValue = function(num){
+			var q = $q.defer();
+			if(angular.isNumber(num)){
+				q.resolve(num + 1);
+			} else {
+				q.reject('NaN');
+			}
+			return q.promise;
+		}
+		$scope.testValue = 0;
+		$scope.promise = $scope.addValue($scope.testValue);
+		$scope.promise
+			.then(function(v){return $scope.addValue(v)})
+			.then(function(v){return $scope.addValue(v)})
+			.then(function(v){return $scope.addValue(v)})
+			.then(function(v){return $scope.addValue(v)})
+			.then(function(v){$scope.testValue = v},
+				function(err){$scope.testValue = err}
+			)
+			
+		$http.get("./sample.json")
+  .then(function(response) {
+      $scope.myWelcome = response.data;
+  });
+    
+	}]);
+
+	myApp.directive('myDiv',function(){
+		return {
+			compile : function(telement,tattribute){
+				console.log('compile phase');
+				//}
+			}
+		}	
+	});	
+
+</script>
+
+</body>
+</html>
